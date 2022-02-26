@@ -2,7 +2,7 @@ body {
     padding-top: 5rem;
 }
 
-div.gallery{
+div.gallery {
     display: grid;
     grid-template-columns: repeat(3,1fr);
     background-color: white;
@@ -10,7 +10,7 @@ div.gallery{
     grid-row-gap: 1em;
 }
 
-div.gallery img{
+div.gallery img {
     width: 25rem;
     height: 20rem;
 }
