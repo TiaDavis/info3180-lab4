@@ -1,3 +1,16 @@
 body {
     padding-top: 5rem;
 }
+
+div.gallery{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    background-color: white;
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
+}
+
+div.gallery img{
+    width: 25rem;
+    height: 20rem;
+}

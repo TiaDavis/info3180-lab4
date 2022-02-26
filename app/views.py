@@ -6,7 +6,7 @@ This file creates your application.
 """
 import os
 from app import app
-from flask import render_template, request, redirect, url_for, flash, session, abort
+from flask import render_template, request, redirect, send_from_directory, url_for, flash, session, abort
 from werkzeug.utils import secure_filename
 from app.forms import UploadForm
 
@@ -23,7 +23,7 @@ def home():
 @app.route('/about/')
 def about():
     """Render the website's about page."""
-    return render_template('about.html', name="Mary Jane")
+    return render_template('about.html', name="Tia-Jay Davis")
 
 
 @app.route('/upload', methods=['POST', 'GET'])
@@ -91,6 +91,17 @@ def send_text_file(file_name):
     file_dot_text = file_name + '.txt'
     return app.send_static_file(file_dot_text)
 
+@app.route('/uploads/<filename>')
+def get_image(filename):
+    return send_from_directory(os.path.join(os.getcwd(), app.config['UPLOAD_FOLDER']), filename)
+    
+@app.route('/files', methods=["GET", "POST"])
+def files():
+    if not session.get('logged_in'):
+        abort(401)
+
+    if request.method == "GET":
+        return render_template('files.html', filelist = get_uploaded_images(), safeformats=app.config['FORMATS'])
 
 @app.after_request
 def add_header(response):
@@ -107,6 +118,16 @@ def add_header(response):
 def page_not_found(error):
     """Custom 404 page."""
     return render_template('404.html'), 404
+
+def get_uploaded_images():
+    filenamelst = []
+    rootdir = os.getcwd()
+    #print (rootdir+app.config['UPLOAD_FOLDER'][0][1:])
+    for subdir, dirs, files in os.walk(rootdir+app.config['UPLOAD_FOLDER'][1:]):
+        for file in files:
+          filenamelst.append(file)
+    print(filenamelst)
+    return filenamelst
 
 
 if __name__ == '__main__':

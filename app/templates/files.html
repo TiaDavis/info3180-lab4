@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block css %} <link rel="stylesheet" href="{{url_for('static', filename= 'css/app.css')}}"/> {% endblock %}
+{% block main %}
+
+<div class="gallery">
+{% for singlepath in filelist %}
+    {% if singlepath.split('.')[-1].lower() in safeformats %}
+        <img src = {{url_for('get_image', filename=singlepath)}} />
+    {% endif %} 
+{% endfor %}
+</div>
+
+{% endblock %}
